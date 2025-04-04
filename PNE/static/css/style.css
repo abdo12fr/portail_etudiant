@@ -1,0 +1,18 @@
+/* static/css/style.css */
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa;
+}
+
+.navbar {
+    background-color: #007bff !important;
+}
+
+.navbar a {
+    color: white !important;
+}
+
+.container {
+    margin-top: 20px;
+}

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+    <h2>Profil de {{ user.first_name }} {{ user.last_name }}</h2>
+    <table class="table">
+        <tr><th>Matricule</th><td>{{ user.userprofile.matricule }}</td></tr>
+        <tr><th>Nom</th><td>{{ user.last_name }}</td></tr>
+        <tr><th>Prénom</th><td>{{ user.first_name }}</td></tr>
+        <tr><th>Classe</th><td>{{ user.userprofile.classe }}</td></tr>
+        <tr><th>École</th><td>{{ user.userprofile.ecole }}</td></tr>
+        <tr><th>Groupe</th><td>{{ user.userprofile.groupe }}</td></tr>
+        <tr><th>Email</th><td>{{ user.email }}</td></tr>
+        <tr><th>Numéro CNE</th><td>{{ user.userprofile.numerocne }}</td></tr>
+        <tr><th>Sexe</th><td>{{ user.userprofile.sexe }}</td></tr>
+        <tr><th>Date de naissance</th><td>{{ user.userprofile.date_naissance }}</td></tr>
+        <tr><th>Nationalité</th><td>{{ user.userprofile.nationalite }}</td></tr>
+    </table>
+</div>
+{% endblock %}
