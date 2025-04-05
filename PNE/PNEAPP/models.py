@@ -47,6 +47,8 @@ class Matiere(models.Model):
     def __str__(self):
         return self.nom
 
+from django.utils import timezone
+
 class Note(models.Model):
     MENTION_CHOICES = [
         ('TB', 'Très Bien'),
@@ -56,13 +58,13 @@ class Note(models.Model):
         ('I', 'Insuffisant'),
     ]
 
-    
-    etudiant = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)  
-    matiere = models.ForeignKey(Matiere, on_delete=models.CASCADE, null=True)
-    note = models.FloatField(null=True)
-    mention = models.CharField(max_length=50, blank=True, null=True)
-    date_saisie = models.DateTimeField(auto_now_add=True, null=True)  # auto_now_add + null=True
-
+    matricule = models.CharField(max_length=50, unique=True, default="UNKNOWN")
+    etudiant = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    matiere = models.ForeignKey(Matiere, on_delete=models.CASCADE)
+    note = models.FloatField()
+    mention = models.CharField(max_length=50, choices=MENTION_CHOICES)
+    date_saisie = models.DateTimeField(auto_now_add=True)  # Retiré le `default`
 
     def __str__(self):
-        return f"{self.etudiant.username} - {self.matiere.nom} : {self.note}"
+        return f"Note de {self.etudiant} en {self.matiere}"
+

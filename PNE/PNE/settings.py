@@ -55,11 +55,18 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'PNE.urls'
 
+import os
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / "PNEAPP/templates"],
-        'APP_DIRS': True,
+        'DIRS': [
+            BASE_DIR / "PNEAPP/templates",  # Chemin vers le dossier contenant base.html
+            BASE_DIR / "templates",         # Si tu souhaites aussi un dossier global 'templates'
+        ],
+        'APP_DIRS': True,  # Permet de charger les templates au niveau des applications
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
@@ -70,6 +77,8 @@ TEMPLATES = [
         },
     },
 ]
+LOGIN_REDIRECT_URL = '/notes/add'  # ou autre vue que tu veux
+
 
 LOGOUT_REDIRECT_URL = '/'
 

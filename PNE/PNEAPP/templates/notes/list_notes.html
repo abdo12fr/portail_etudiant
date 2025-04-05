@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h2>Liste des notes</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Étudiant</th>
+        <th>Matière</th>
+        <th>Note</th>
+        <th>Mentions</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for note in notes %}
+        <tr>
+          <td>{{ note.etudiant.username }}</td>
+          <td>{{ note.matiere }}</td>
+          <td>{{ note.note }}</td>
+          <td>{{ note.mention }}</td>
+          <td>
+            <a href="{% url 'update_note' note.id %}">Modifier</a>
+            <a href="{% url 'delete_note' note.id %}">Supprimer</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

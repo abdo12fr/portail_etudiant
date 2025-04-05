@@ -89,46 +89,69 @@ def accueil_utilisateur(request):
     return render(request, 'accueil.html')
 
 
+# PNEAPP/views.py
 
-from .models import Note
+
+
+
+
+from django.shortcuts import render, redirect
 from .forms import NoteForm
-from django.contrib.auth.decorators import login_required
+from .models import Note, Matiere
+from django.contrib import messages
 
-@login_required
-def liste_notes(request):
-    notes = Note.objects.all()
-    return render(request, 'notes/liste_notes.html', {'notes': notes})
-
-@login_required
-def ajouter_note(request):
+def add_note(request):
     if request.method == 'POST':
+        # Ici, on crée le formulaire en utilisant les données de la requête POST
         form = NoteForm(request.POST)
         if form.is_valid():
+            # Si le formulaire est valide, on l'enregistre dans la base de données
             form.save()
-            return redirect('liste_notes')
+            messages.success(request, "Note ajoutée avec succès !")
+            return redirect('add_note')  # Rediriger vers la même page pour afficher la note
     else:
         form = NoteForm()
-    return render(request, 'notes/ajouter_note.html', {'form': form})
 
-@login_required
-def modifier_note(request, pk):  # Utilisation du paramètre pk
-    note = get_object_or_404(Note, pk=pk)  # Cherche la note par pk
-    form = NoteForm(request.POST or None, instance=note)
-    
-    if form.is_valid():
-        form.save()
-        return redirect('liste_notes')
-    
-    return render(request, 'notes/modifier_note.html', {'form': form})
-
+    # Passer le formulaire au template
+    return render(request, 'notes/add_note.html', {'form': form})
 
 
 
 @login_required
-def supprimer_note(request):
-    pk = request.GET.get('id')
-    note = get_object_or_404(Note, pk=pk)
+def list_notes(request):
+    notes = Note.objects.all()
+    return render(request, 'notes/list_notes.html', {'notes': notes})
+
+@login_required
+def update_note(request, note_id):
+    note = get_object_or_404(Note, pk=note_id)
+    if request.method == 'POST':
+        form = NoteForm(request.POST, instance=note)
+        if form.is_valid():
+            form.save()
+            return redirect('list_notes')
+    else:
+        form = NoteForm(instance=note)
+    return render(request, 'notes/update_note.html', {'form': form})
+
+@login_required
+def delete_note(request, note_id):
+    note = get_object_or_404(Note, pk=note_id)
     if request.method == 'POST':
         note.delete()
-        return redirect('liste_notes')
-    return render(request, 'notes/supprimer_note.html', {'note': note})
+        return redirect('list_notes')
+    return render(request, 'notes/delete_note.html', {'note': note})
+
+# views.py
+from django.contrib.auth.views import LoginView
+from django.shortcuts import redirect
+
+class CustomLoginView(LoginView):
+    def get_success_url(self):
+        user = self.request.user
+        if user.role == 'prof':
+            return '/notes/add/'
+        elif user.role == 'etudiant':
+            return '/profile/'
+        else:
+            return 'accueil'  # page d'accueil par défaut

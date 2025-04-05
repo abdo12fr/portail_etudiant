@@ -1,4 +1,6 @@
+from django import views
 from django.urls import path
+from .views import CustomLoginView
 from .views import (
     login_view,
     logout_view,
@@ -6,22 +8,21 @@ from .views import (
     dashboard,
     accueil_utilisateur,
     register,
-    liste_notes,
-    ajouter_note,
-    modifier_note,
-    supprimer_note,
+    add_note,
+    delete_note,
+    update_note,
+    list_notes,
 )
 
 urlpatterns = [
-    path("", login_view, name="login"),
+    path('', CustomLoginView.as_view(), name='login'),
     path("profile/", profile_view, name="profile"),
     path("dashboard/", dashboard, name="dashboard"),
     path("register/", register, name="register"),
-    path("accueil/", accueil_utilisateur, name="accueil_utilisateur"),
+    path('accueil/', accueil_utilisateur, name='accueil'),
     path("logout/", logout_view, name="logout"),
-    path('notes/', liste_notes, name='liste_notes'),
-    path('notes/ajouter/', ajouter_note, name='ajouter_note'),
-    path('notes/modifier/', modifier_note, name='modifier_note'),
-    path('notes/supprimer/', supprimer_note, name='supprimer_note'),
-
+    path('notes/', list_notes, name='list_notes'),
+    path('notes/add/', add_note, name='add_note'),
+    path('notes/update/<int:note_id>/', update_note, name='update_note'),
+    path('notes/delete/<int:note_id>/', delete_note, name='delete_note'),
 ]
