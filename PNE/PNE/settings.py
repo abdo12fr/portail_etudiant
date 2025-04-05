@@ -71,6 +71,8 @@ TEMPLATES = [
     },
 ]
 
+LOGOUT_REDIRECT_URL = '/'
+
 WSGI_APPLICATION = 'PNE.wsgi.application'
 AUTH_USER_MODEL = "PNEAPP.Utilisateur"
 
@@ -80,14 +82,18 @@ AUTH_USER_MODEL = "PNEAPP.Utilisateur"
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'portail',  # Remplace par le nom de ta base de données
-        'USER': 'abdooelk',        # Utilisateur PostgreSQL
-        'PASSWORD': 'abdo',  # Assure-toi que le mot de passe est correct
-        'HOST': 'localhost',       # L'hôte pour une base locale
-        'PORT': '5432',            # Le port par défaut de PostgreSQL
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'dbevente',  # Le nom de ta base de données
+        'USER': 'root',  # Par défaut dans MAMP
+        'PASSWORD': 'root',  # Par défaut dans MAMP
+        'HOST': 'localhost',
+        'PORT': '8889',  # Le port par défaut de MAMP pour MySQL
     }
 }
+
+
+
+
 
 
 

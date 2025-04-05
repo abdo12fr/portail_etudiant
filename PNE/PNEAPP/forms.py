@@ -1,14 +1,23 @@
+# PNEAPP/forms.py
 from django import forms
-from django.contrib.auth import get_user_model  # Importez get_user_model
-from .models import Note, Matiere
+from django.contrib.auth.forms import UserCreationForm
+from .models import Utilisateur, Note
 
-User = get_user_model()  # Utilisez get_user_model() pour obtenir le modèle utilisateur personnalisé
+class CustomUserCreationForm(UserCreationForm):
+    email = forms.EmailField(required=True)
+    role = forms.ChoiceField(
+        choices=[('etudiant', 'Étudiant'), ('prof', 'Professeur'), ('admin', 'Administrateur')],
+        widget=forms.Select(attrs={'class': 'form-control'})
+    )
+
+    class Meta:
+        model = Utilisateur
+        fields = ['username', 'email', 'password1', 'password2', 'role']
+
+from django import forms
+from .models import Note
 
 class NoteForm(forms.ModelForm):
     class Meta:
         model = Note
-        fields = ['student', 'subject', 'value']
-
-    student = forms.ModelChoiceField(queryset=User.objects.filter(groups__name='Students'), label="Étudiant")
-    subject = forms.ModelChoiceField(queryset=Matiere.objects.all(), label="Matière")
-    value = forms.DecimalField(max_digits=5, decimal_places=2, label="Note")
+        fields = ['etudiant', 'matiere', 'note', 'mention']
