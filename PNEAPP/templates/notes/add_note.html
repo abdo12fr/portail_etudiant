@@ -1,0 +1,40 @@
+<!-- PNEAPP/templates/notes/add_note.html -->
+{% extends 'base.html' %}
+{% block content %}
+
+
+<div class="container mt-5" style="background: linear-gradient(to bottom right, #e6f7ff, #ffffff); border-radius: 10px; padding: 30px;">
+    <h2 class="text-center text-primary mb-4">Ajouter une note</h2>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-success" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group mb-3">
+            <label>Matière</label>
+            {{ form.matiere }}
+        </div>
+        <div class="form-group mb-3">
+            <label>Note (0 - 20)</label>
+            {{ form.note }}
+        </div>
+        <div class="form-group mb-3">
+            <label>Mention</label>
+            {{ form.mention }}
+        </div>
+        <div class="form-group mb-3">
+            <label>Étudiant</label>
+            {{ form.etudiant }}
+        </div>
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary btn-lg">Ajouter la note</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

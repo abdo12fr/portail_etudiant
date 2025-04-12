@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Bienvenue sur le portail étudiant</h1>
+
+  {% if user.is_authenticated %}
+    <p>Bonjour, {{ user.username }} !</p>
+
+    {% if user.userprofile.role == 'etudiant' %}
+      <a href="{% url 'bulletin' %}">Voir mon bulletin</a>
+    {% elif user.userprofile.role == 'prof' %}
+      <a href="{% url 'notes_prof' %}">Gérer les notes</a>
+    {% elif user.is_superuser %}
+      <a href="{% url 'admin_dashboard' %}">Tableau de bord Admin</a>
+    {% endif %}
+  {% else %}
+    <a href="{% url 'login' %}">Se connecter</a>
+  {% endif %}
+{% endblock %}

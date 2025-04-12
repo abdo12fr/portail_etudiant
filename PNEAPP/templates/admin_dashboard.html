@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block title %}Admin Dashboard{% endblock %}
+{% block content %}
+<h2 class="mb-4">Admin Dashboard</h2>
+<div class="list-group">
+  <a href="{% url 'report' %}" class="list-group-item list-group-item-action">🧾 Generate Student Reports</a>
+  <a href="/admin/" class="list-group-item list-group-item-action">⚙️ Django Admin Panel</a>
+</div>
+{% endblock %}

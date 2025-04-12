@@ -1,0 +1,32 @@
+<!-- moyenne.html -->
+<h1>Moyenne des notes de {{ request.user.username }}</h1>
+
+{% if moyenne.note__avg %}
+    <p>La moyenne des notes est : {{ moyenne.note__avg }}</p>
+{% else %}
+    <p>Aucune note disponible pour cet étudiant.</p>
+{% endif %}
+
+<h2>Liste des notes :</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Matière</th>
+            <th>Note</th>
+            <th>Mention</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for note in notes %}
+        <tr>
+            <td>{{ note.matiere }}</td>
+            <td>{{ note.note }}</td>
+            <td>{{ note.mention }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="3">Aucune note disponible.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

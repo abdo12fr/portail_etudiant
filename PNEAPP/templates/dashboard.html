@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Administratif</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome pour les icônes -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #6366f1;
+            --primary-hover: #4f46e5;
+            --secondary-color: #a855f7;
+            --success-color: #10b981;
+            --info-color: #0ea5e9;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --light-color: #f9fafb;
+            --dark-color: #1f2937;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --border-radius: 12px;
+            --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        
+        body {
+            background-color: #f3f4f6;
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-primary);
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 280px;
+            background: white;
+            box-shadow: var(--card-shadow);
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+        
+        .sidebar-header {
+            padding: 25px 20px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .sidebar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .sidebar-nav {
+            padding: 20px;
+        }
+        
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: var(--border-radius);
+            margin-bottom: 8px;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+        
+        .sidebar-link:hover, .sidebar-link.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .sidebar-link i {
+            margin-right: 12px;
+            font-size: 1.2rem;
+            width: 24px;
+            text-align: center;
+        }
+        
+        .sidebar-footer {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            padding: 0 20px;
+        }
+        
+        .btn-logout-sidebar {
+            width: 100%;
+            padding: 12px;
+            background-color: #f3f4f6;
+            color: var(--text-primary);
+            border: none;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s;
+        }
+        
+        .btn-logout-sidebar:hover {
+            background-color: #e5e7eb;
+        }
+        
+        /* Main Content */
+        .main-content {
+            margin-left: 280px;
+            padding: 30px;
+            transition: all 0.3s ease;
+        }
+        
+        /* Header Bar */
+        .header-bar {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: var(--card-shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .page-title {
+            font-weight: 600;
+            font-size: 1.5rem;
+            margin: 0;
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .user-info {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .user-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+        
+        .user-role {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+        
+        /* Stats Cards */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stat-card .icon-container {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+        }
+        
+        .stat-card.students .icon-container {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: var(--success-color);
+        }
+        
+        .stat-card.teachers .icon-container {
+            background-color: rgba(14, 165, 233, 0.1);
+            color: var(--info-color);
+        }
+        
+        .stat-card.admins .icon-container {
+            background-color: rgba(245, 158, 11, 0.1);
+            color: var(--warning-color);
+        }
+        
+        .stat-card .stat-value {
+            font-size: 2.2rem;
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+        
+        .stat-card .stat-label {
+            font-weight: 500;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+        }
+        
+        .stat-card .change-indicator {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 5px 10px;
+            border-radius: 15px;
+        }
+        
+        .stat-card .change-indicator.positive {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: var(--success-color);
+        }
+        
+        /* Action Cards */
+        .section-title {
+            font-weight: 600;
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-left: 15px;
+        }
+        
+        .section-title:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 20px;
+            background-color: var(--primary-color);
+            border-radius: 4px;
+        }
+        
+        .action-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+        }
+        
+        .action-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .action-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .action-card a {
+            display: flex;
+            flex-direction: column;
+            padding: 24px;
+            text-decoration: none;
+            color: var(--text-primary);
+            height: 100%;
+        }
+        
+        .action-card .icon-container {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+            color: white;
+        }
+        
+        .action-card:nth-child(1) .icon-container {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+        }
+        
+        .action-card:nth-child(2) .icon-container {
+            background: linear-gradient(45deg, var(--info-color), #38bdf8);
+        }
+        
+        .action-card:nth-child(3) .icon-container {
+            background: linear-gradient(45deg, var(--success-color), #34d399);
+        }
+        
+        .action-card:nth-child(4) .icon-container {
+            background: linear-gradient(45deg, var(--warning-color), #fbbf24);
+        }
+        
+        .action-card .action-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+        
+        .action-card .action-description {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 0;
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 80px;
+                padding: 10px;
+            }
+            
+            .sidebar-brand span,
+            .sidebar-link span {
+                display: none;
+            }
+            
+            .sidebar-link {
+                justify-content: center;
+                padding: 15px;
+            }
+            
+            .sidebar-link i {
+                margin-right: 0;
+            }
+            
+            .btn-logout-sidebar span {
+                display: none;
+            }
+            
+            .sidebar-header {
+                padding: 20px 0;
+                display: flex;
+                justify-content: center;
+            }
+            
+            .main-content {
+                margin-left: 80px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                left: -280px;
+            }
+            
+            .sidebar.active {
+                left: 0;
+            }
+            
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+            }
+            
+            .header-bar {
+                margin-bottom: 20px;
+            }
+            
+            .mobile-toggle {
+                display: block;
+                margin-right: 15px;
+                font-size: 1.5rem;
+                cursor: pointer;
+            }
+            
+            .header-bar {
+                padding: 15px;
+            }
+            
+            .user-avatar {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+        }
+        
+        .mobile-toggle {
+            display: none;
+        }
+        
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 99;
+        }
+        
+        .overlay.active {
+            display: block;
+        }
+        
+        /* Footer */
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <a class="sidebar-brand" href="#">
+                <i class="fas fa-chart-line"></i>
+                <span>Tableau de Bord</span>
+            </a>
+        </div>
+        <div class="sidebar-nav">
+            <a href="#" class="sidebar-link active">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Vue d'ensemble</span>
+            </a>
+            <a href="#" class="sidebar-link">
+                <i class="fas fa-user-graduate"></i>
+                <span>Étudiants</span>
+            </a>
+            <a href="#" class="sidebar-link">
+                <i class="fas fa-chalkboard-teacher"></i>
+                <span>Professeurs</span>
+            </a>
+            <a href="#" class="sidebar-link">
+                <i class="fas fa-calendar-alt"></i>
+                <span>Emplois du temps</span>
+            </a>
+           
+            <a href="#" class="sidebar-link">
+                <i class="fas fa-chart-pie"></i>
+                <span>Analyses</span>
+            </a>
+            <a href="#" class="sidebar-link">
+                <i class="fas fa-cog"></i>
+                <span>Paramètres</span>
+            </a>
+        </div>
+        <div class="sidebar-footer">
+            <a href="{% url 'login' %}" class="btn-logout-sidebar">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Déconnexion</span>
+            </a>
+        </div>
+    </div>
+    
+    <div class="overlay" id="overlay"></div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="header-bar">
+            <div class="d-flex align-items-center">
+                <div class="mobile-toggle" id="sidebarToggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <h1 class="page-title">Tableau de Bord</h1>
+            </div>
+            <div class="user-profile">
+                <div class="user-info">
+                    <div class="user-name">Admin Utilisateur</div>
+                    <div class="user-role">Administrateur</div>
+                </div>
+                <div class="user-avatar">
+                    AU
+                </div>
+            </div>
+        </div>
+        
+        <!-- Stats Cards -->
+        <div class="stats-container">
+            <div class="stat-card students">
+                <div class="change-indicator positive">
+                    <i class="fas fa-arrow-up"></i> 5%
+                </div>
+                <div class="icon-container">
+                    <i class="fas fa-user-graduate"></i>
+                </div>
+                <div class="stat-value">{{ students_count }}</div>
+                <div class="stat-label">Étudiants</div>
+            </div>
+            <div class="stat-card teachers">
+                <div class="change-indicator positive">
+                    <i class="fas fa-arrow-up"></i> 2%
+                </div>
+                <div class="icon-container">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                </div>
+                <div class="stat-value">{{ teachers_count }}</div>
+                <div class="stat-label">Professeurs</div>
+            </div>
+            <div class="stat-card admins">
+                <div class="change-indicator positive">
+                    <i class="fas fa-equals"></i> 0%
+                </div>
+                <div class="icon-container">
+                    <i class="fas fa-user-shield"></i>
+                </div>
+                <div class="stat-value">{{ admins_count }}</div>
+                <div class="stat-label">Administrateurs</div>
+            </div>
+        </div>
+        
+        <!-- Action Cards -->
+        <h2 class="section-title">Actions rapides</h2>
+        <div class="action-cards">
+            <div class="action-card">
+                <a href="#">
+                    <div class="icon-container">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="action-title">Gérer des évaluations</div>
+                    <div class="action-description">Créer, modifier ou consulter les évaluations en cours</div>
+                </a>
+            </div>
+            <div class="action-card">
+                <a href="{% url 'add_note' %}">
+                    <div class="icon-container">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div class="action-title">Gestion des Notes</div>
+                    <div class="action-description">Consulter et modifier les notes des étudiants</div>
+                </a>
+            </div>
+            <div class="action-card">
+                <a href="{% url 'add_matiere' %}">
+                    <div class="icon-container">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <div class="action-title">Gestion des matieres</div>
+                    <div class="action-description">Consulter et modifier les matieres</div>
+                </a>
+            </div>
+            <div class="action-card">
+                <a href="#">
+                    <div class="icon-container">
+                        <i class="fas fa-chart-pie"></i>
+                    </div>
+                    <div class="action-title">Envoyer des feedbacks</div>
+                    <div class="action-description">Communiquer et envoyer des retours aux étudiants</div>
+                </a>
+            </div>
+        </div>
+        
+        <footer class="footer">
+            <p>© 2025 Système de Gestion Académique | Tous droits réservés</p>
+        </footer>
+    </div>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Sidebar toggle for mobile
+        document.getElementById('sidebarToggle').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.toggle('active');
+            document.getElementById('overlay').classList.toggle('active');
+        });
+        
+        document.getElementById('overlay').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.remove('active');
+            document.getElementById('overlay').classList.remove('active');
+        });
+    </script>
+</body>
+</html>

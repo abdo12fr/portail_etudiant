@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Your Students' Grades</h1>
+<table>
+  <tr>
+    <th>Student</th>
+    <th>Subject</th>
+    <th>Grade</th>
+    <th>Mention</th>
+  </tr>
+  {% for note in notes %}
+  <tr>
+    <td>{{ note.etudiant.username }}</td>
+    <td>{{ note.matiere.name }}</td>
+    <td>{{ note.note }}</td>
+    <td>{{ note.mention }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}

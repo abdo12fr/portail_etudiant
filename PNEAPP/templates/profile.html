@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+    <h2>Profil de {{ user.first_name }} {{ user.last_name }}</h2>
+    <table class="table">
+        <tr><th>Nom</th><td>{{ user.last_name }}</td></tr>
+        <tr><th>Prénom</th><td>{{ user.first_name }}</td></tr>
+        <tr><th>Email</th><td>{{ user.email }}</td></tr>
+    </table>
+</div>
+{% endblock %}
