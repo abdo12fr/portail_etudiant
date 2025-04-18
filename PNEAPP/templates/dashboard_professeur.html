@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Tableau de bord - Professeur</h2>
+
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <div class="card bg-primary text-white mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Total étudiants</h5>
+                    <p class="card-text">{{ total_etudiants }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card bg-info text-white mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Total matières</h5>
+                    <p class="card-text">{{ total_matieres }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card bg-success text-white mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Moyenne globale</h5>
+                    <p class="card-text">{{ moyenne_globale }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card bg-warning text-dark mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Meilleure note</h5>
+                    <p class="card-text">{{ meilleure_note }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card bg-danger text-white mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Pire note</h5>
+                    <p class="card-text">{{ pire_note }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <canvas id="matiereChart" height="100"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const ctx = document.getElementById('matiereChart').getContext('2d');
+    const matiereChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: [{% for nom, moy in moyennes_par_matiere %}"{{ nom }}",{% endfor %}],
+            datasets: [{
+                label: 'Moyenne par matière',
+                data: [{% for nom, moy in moyennes_par_matiere %}{{ moy }},{% endfor %}],
+                backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: { y: { beginAtZero: true, max: 20 } }
+        }
+    });
+</script>
+{% endblock %}

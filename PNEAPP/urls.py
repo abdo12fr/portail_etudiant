@@ -1,8 +1,13 @@
 from django import views
 from django.urls import path
+<<<<<<< HEAD
 from .views import CustomLoginView, add_matiere, admin_dashboard, afficher_moyenne, bulletin, delete_matiere, list_matieres, professor_notes, update_matiere
 from .views import (
     login_view,
+=======
+from .views import CustomLoginView, add_matiere, dashboard_professeur, dashboard_student, delete_matiere, export_bulletin_pdf, import_notes_excel, list_matieres, unauthorized_access, update_matiere
+from .views import (
+>>>>>>> 912d90e (Initial commit)
     logout_view,
     profile_view,
     dashboard,
@@ -25,11 +30,15 @@ urlpatterns = [
     path('notes/add/', add_note, name='add_note'),
     path('notes/update/<int:note_id>/', update_note, name='update_note'),
     path('notes/delete/<int:note_id>/', delete_note, name='delete_note'),
+<<<<<<< HEAD
     path('notes/prof/', professor_notes, name='notes_prof'),
+=======
+>>>>>>> 912d90e (Initial commit)
     path('matieres/add/',add_matiere, name='add_matiere'),
     path('matieres/', list_matieres, name='list_matieres'),
     path('matieres/modifier/<int:matiere_id>/', update_matiere, name='update_matiere'),
     path('matieres/supprimer/<int:matiere_id>/', delete_matiere, name='delete_matiere'),
+<<<<<<< HEAD
     path('moyenne/', afficher_moyenne, name='afficher_moyenne'),
     path('bulletin/', bulletin, name='bulletin'),  # Page du bulletin
     path('dashboard/', views.home, name='home'),
@@ -45,3 +54,16 @@ urlpatterns = [
 
 ]
 
+=======
+    path('notes/export/pdf/', export_bulletin_pdf, name='export_bulletin_pdf'),
+    path('notes/import/', import_notes_excel, name='import_notes_excel'),
+    path('dashboard/etudiant/', dashboard_student, name='dashboard_student'),
+    path("dashboard/professeur/", dashboard_professeur, name="dashboard_professeur"),
+    path('access-denied/', unauthorized_access, name='access_denied'),
+]
+
+
+
+
+
+>>>>>>> 912d90e (Initial commit)

@@ -1,19 +1,30 @@
+<<<<<<< HEAD
 <!-- PNEAPP/templates/notes/add_note.html -->
 {% extends 'base.html' %}
 {% block content %}
 
+=======
+{% extends 'base.html' %}
+{% block content %}
+{% load form_filters %}
+>>>>>>> 912d90e (Initial commit)
 
 <div class="container mt-5" style="background: linear-gradient(to bottom right, #e6f7ff, #ffffff); border-radius: 10px; padding: 30px;">
     <h2 class="text-center text-primary mb-4">Ajouter une note</h2>
 
     {% if messages %}
         {% for message in messages %}
+<<<<<<< HEAD
             <div class="alert alert-success" role="alert">
+=======
+            <div class="alert {% if message.tags == 'error' %}alert-danger{% else %}alert-success{% endif %}" role="alert">
+>>>>>>> 912d90e (Initial commit)
                 {{ message }}
             </div>
         {% endfor %}
     {% endif %}
 
+<<<<<<< HEAD
     <form method="POST">
         {% csrf_token %}
         <div class="form-group mb-3">
@@ -37,4 +48,29 @@
         </div>
     </form>
 </div>
+=======
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="{{ form.etudiant.id_for_label }}">Étudiant</label>
+            {{ form.etudiant }}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.matiere.id_for_label }}">Matière</label>
+            {{ form.matiere }}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.note.id_for_label }}">Note</label>
+            {{ form.note }}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.mention.id_for_label }}">Mention</label>
+            {{ form.mention }}  <!-- ✅ Le champ manquant -->
+        </div>
+        <button type="submit" class="btn btn-primary">Ajouter la note</button>
+    </form>
+    
+</div>
+
+>>>>>>> 912d90e (Initial commit)
 {% endblock %}

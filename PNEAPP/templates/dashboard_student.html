@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Bonjour {{ user.first_name }} {{ user.last_name }}</h2>
+    
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <div class="card text-white bg-primary mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Nombre de matières</h5>
+                    <p class="card-text">{{ total_matieres }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card text-white bg-success mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Moyenne générale</h5>
+                    <p class="card-text">{{ moyenne }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card text-white bg-info mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Meilleure note</h5>
+                    <p class="card-text">{{ meilleure_note }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <canvas id="noteChart" height="100"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const ctx = document.getElementById('noteChart').getContext('2d');
+    const noteChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: [{% for note in notes %}"{{ note.matiere.nom }}",{% endfor %}],
+            datasets: [{
+                label: 'Note par matière',
+                data: [{% for note in notes %}{{ note.note }},{% endfor %}],
+                backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: { y: { beginAtZero: true, max: 20 } }
+        }
+    });
+</script>
+{% endblock %}
